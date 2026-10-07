@@ -12,6 +12,21 @@ function doGet() {
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 
+// Receives submissions from the form on olishstudio.com/shop-setup.
+function doPost(e) {
+  let ok = true;
+  try {
+    const data = JSON.parse(e.postData.contents);
+    if (!Array.isArray(data.answers) || typeof data.text !== 'string') throw new Error('Bad submission');
+    submitIntake(data.answers, data.text);
+  } catch (err) {
+    console.error(err);
+    ok = false;
+  }
+  return ContentService.createTextOutput(JSON.stringify({ ok }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
 // answers: [[label, value], ...] in form order. text: plain-text summary.
 function submitIntake(answers, text) {
   const lock = LockService.getScriptLock();
