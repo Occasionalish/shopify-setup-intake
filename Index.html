@@ -83,6 +83,9 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 #status h2{font:700 22px var(--display);margin:0}
 #status p{margin:0}
 .addr{font:500 15px var(--mono);user-select:all;background:var(--soft);padding:2px 8px;border-radius:6px}
+#thanks{min-height:100vh;display:grid;place-content:center;text-align:center;gap:10px;padding-inline:20px}
+#thanks h2{font:700 clamp(28px,5vw,40px)/1.1 var(--display);margin:0}
+#thanks p{margin:0;color:var(--muted);font-size:17px}
 #summary{width:100%;min-height:200px;font:13px/1.5 var(--mono)}
 @media (prefers-reduced-motion:no-preference){fieldset{transition:border-color .2s}}
 </style>
@@ -199,22 +202,22 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
       <!-- 5 -->
       <fieldset id="s5" data-section="5. Collections and menu">
         <legend><div class="sec-head"><span class="n">05</span><h2>Collections &amp; menu</h2></div></legend>
-        <div class="field"><label for="collections">Collection names <span class="sub">(like Stickers, Cards, New)</span></label><textarea id="collections" name="collections" data-q="Collection names" placeholder="One per line"></textarea></div>
+        <div class="field"><label for="collections" class="req">Collection names <span class="sub">(like Stickers, Cards, New)</span></label><textarea id="collections" name="collections" data-q="Collection names" required placeholder="One per line"></textarea></div>
         <div class="row">
-          <div class="field"><label for="top_menu">Top menu links</label><textarea id="top_menu" name="top_menu" data-q="Top menu links" placeholder="Shop All, Stickers, About, Contact"></textarea></div>
-          <div class="field"><label for="footer_menu">Footer links</label><textarea id="footer_menu" name="footer_menu" data-q="Footer links" placeholder="FAQ, Shipping, Returns, Contact"></textarea></div>
+          <div class="field"><label for="top_menu" class="req">Top menu links</label><textarea id="top_menu" name="top_menu" data-q="Top menu links" required placeholder="Shop All, Stickers, About, Contact"></textarea></div>
+          <div class="field"><label for="footer_menu" class="req">Footer links</label><textarea id="footer_menu" name="footer_menu" data-q="Footer links" required placeholder="FAQ, Shipping, Returns, Contact"></textarea></div>
         </div>
       </fieldset>
 
       <!-- 6 -->
       <fieldset id="s6" data-section="6. Banners and homepage">
         <legend><div class="sec-head"><span class="n">06</span><h2>Banners &amp; homepage</h2></div></legend>
-        <div class="field"><label for="banner_link">Banner images, or photos to make them from <span class="sub">(folder link)</span></label><input type="url" id="banner_link" name="banner_link" data-q="Banner images link" placeholder="https://drive.google.com/…"></div>
+        <div class="field"><label for="banner_link" class="req">Banner images, or photos to make them from <span class="sub">(folder link)</span></label><input type="url" id="banner_link" name="banner_link" data-q="Banner images link" required placeholder="https://drive.google.com/…"></div>
         <div class="row">
-          <div class="field"><label for="headline">Homepage headline</label><input type="text" id="headline" name="headline" data-q="Homepage headline" placeholder="Stickers for your happiest planner pages"></div>
-          <div class="field"><label for="button_text">Button text</label><input type="text" id="button_text" name="button_text" data-q="Button text" placeholder="Shop now"></div>
+          <div class="field"><label for="headline" class="req">Homepage headline</label><input type="text" id="headline" name="headline" data-q="Homepage headline" required placeholder="Stickers for your happiest planner pages"></div>
+          <div class="field"><label for="button_text" class="req">Button text</label><input type="text" id="button_text" name="button_text" data-q="Button text" required placeholder="Shop now"></div>
         </div>
-        <div class="field"><label for="announce">Announcement bar text</label><input type="text" id="announce" name="announce" data-q="Announcement bar" placeholder="Free shipping over $50"></div>
+        <div class="field"><label for="announce" class="req">Announcement bar text</label><input type="text" id="announce" name="announce" data-q="Announcement bar" required placeholder="Free shipping over $50, or None"></div>
       </fieldset>
 
       <!-- 7 -->
@@ -223,8 +226,8 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
         <div class="field"><label for="about_page">About page text</label><textarea id="about_page" name="about_page" data-q="About text" style="min-height:130px"></textarea></div>
         <div class="field"><label for="contact_show">Contact details to show on the site <span class="sub">(email, phone, address)</span></label><textarea id="contact_show" name="contact_show" data-q="Contact details to show"></textarea></div>
         <div class="row">
-          <div class="field"><label for="ship_policy">Shipping policy</label><textarea id="ship_policy" name="ship_policy" data-q="Shipping policy"></textarea></div>
-          <div class="field"><label for="return_policy">Return policy</label><textarea id="return_policy" name="return_policy" data-q="Return policy"></textarea></div>
+          <div class="field"><label for="ship_policy">Shipping policy</label><textarea id="ship_policy" name="ship_policy" data-q="Shipping policy" placeholder="E.g. Ships in 1-3 business days"></textarea></div>
+          <div class="field"><label for="return_policy">Return policy</label><textarea id="return_policy" name="return_policy" data-q="Return policy" placeholder="E.g. No returns"></textarea></div>
         </div>
         <div class="field"><label for="faq">FAQ <span class="sub">(if you have one)</span></label><textarea id="faq" name="faq" data-q="FAQ" placeholder="Paste questions and answers, or a link to a doc"></textarea></div>
       </fieldset>
@@ -291,6 +294,11 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
     </form>
   </div>
 </div>
+
+<section id="thanks" hidden aria-live="polite">
+  <h2>Got it, thank you!</h2>
+  <p>Your answers were sent. We'll be in touch soon.</p>
+</section>
 
 <script>
 (function(){
@@ -394,16 +402,16 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 
     function show(ok){
       btn.disabled = false; btn.textContent = "Submit the form";
-      status.hidden = false;
       if (ok){
         clearDraft();
-        btn.hidden = true;
-        document.getElementById("st-title").textContent = "Got it, thank you!";
-        document.getElementById("st-body").textContent = "Your answers were sent. We'll be in touch soon. A copy is below for your records.";
-      } else {
-        document.getElementById("st-title").textContent = "That didn't go through";
-        document.getElementById("st-body").innerHTML = "Please try Submit again. If it still fails, copy your answers below and email them to <span class=\"addr\">" + TO + "</span>.";
+        document.querySelector(".wrap").hidden = true;
+        document.getElementById("thanks").hidden = false;
+        window.scrollTo(0, 0);
+        return;
       }
+      status.hidden = false;
+      document.getElementById("st-title").textContent = "That didn't go through";
+      document.getElementById("st-body").innerHTML = "Please try Submit again. If it still fails, copy your answers below and email them to <span class=\"addr\">" + TO + "</span>.";
       status.scrollIntoView({behavior:"smooth",block:"start"});
     }
     google.script.run.withSuccessHandler(()=>show(true)).withFailureHandler(()=>show(false)).submitIntake(answers, text);
