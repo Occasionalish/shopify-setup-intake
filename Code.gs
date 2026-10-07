@@ -7,7 +7,9 @@ const NOTIFY_EMAIL = 'heyolish@gmail.com';
 function doGet() {
   return HtmlService.createHtmlOutputFromFile('Index')
     .setTitle('Shopify Shop Setup Intake')
-    .addMetaTag('viewport', 'width=device-width, initial-scale=1');
+    .addMetaTag('viewport', 'width=device-width, initial-scale=1')
+    // Lets olishstudio.com/shop-setup show the form inside its own page.
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 
 // answers: [[label, value], ...] in form order. text: plain-text summary.
